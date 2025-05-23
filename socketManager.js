@@ -10,9 +10,14 @@ export const connectToSocket = (server) => {
     },
   });
 
-  io.on("connection",(socket)=>{
-    console.log("user connected")
-  })
+  io.on("connection", (socket) => {
+    console.log("user connected", socket.id);
 
-  return io
+    socket.on("message", (msg) => {
+      console.log(msg);
+      io.emit("message", msg);
+    });
+  });
+
+  return io;
 };
